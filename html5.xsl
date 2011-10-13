@@ -54,7 +54,7 @@
 				<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 				
 				<!-- We use the page title from SAM. That can be prepended to or altered here -->
-				<title><xsl:value-of select="/SAM/page/title" /></title>
+				<title><xsl:value-of select="/SAM/page/title" disable-output-escaping="yes" /></title>
 				
 				<!-- Common meta tags -->
 				<meta name="description" content="" />
