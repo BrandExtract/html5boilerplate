@@ -113,7 +113,7 @@
 			
 			<body>
 				<!-- Add class names for primary, secondary and active pages. Also adds class for home page and inidcator for if the page has a sidebar -->
-				<xsl:attribute name="class">p<xsl:value-of select="$myPrimaryPageID" /> p<xsl:value-of select="$mySecondaryPageID" /> p<xsl:value-of select="/SAM/page/@id" />
+				<xsl:attribute name="class">primary<xsl:value-of select="$myPrimaryPageID" /> secondary<xsl:value-of select="$mySecondaryPageID" /> pid<xsl:value-of select="/SAM/page/@id" /> sam<xsl:value-of select="@directive"/>
     				<xsl:if test="/SAM/page/@id = $myHomePageID"> home</xsl:if>
     				<xsl:if test="$hasSidebar = 'true'"> hasSidebar</xsl:if>
     			</xsl:attribute>
