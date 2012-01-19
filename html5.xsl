@@ -60,9 +60,9 @@
 				<meta name="description" content="" />
 				<meta name="author" content="" />
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-				<xsl:if test="/SAM/@directive != 'publish'">
-					<meta name="robots" content="none" />
-				</xsl:if>
+				<xsl:if test="@directive = 'staging'">
+            				<meta name="robots" content="noindex, nofollow"/>
+            			</xsl:if>
 				
 				<!-- Favicon and touch icon links -->
 				<!--<link rel="shortcut icon" href="/favicon.ico" />-->
