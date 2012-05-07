@@ -107,7 +107,9 @@
 				</style>
 				
 				<!-- call to Remy Sharp's HTML5 Shim for IE -->
+				<xsl:text disable-output-escaping='yes'><![CDATA[
 				<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+				]]></xsl:text>
 				
 				<!-- Call to Modernizr (more: http://www.modernizr.com/) -->
 				<script src="/js/modernizr-1.7.min.js"></script>
@@ -147,7 +149,9 @@
 				<!--<script src="/js/yourscript.js"></script>-->
 				
 				<!-- Call to PNG Fix for IE 6 -->
+				<xsl:text disable-output-escaping='yes'><![CDATA[
 				<!--[if lt IE 7 ]><script src="/js/dd_belatedpng.js"></script><script>DD_belatedPNG.fix('img, .png_bg');</script><![endif]-->
+				]]></xsl:text>
 				
 				<!-- Google Analytics code -->
 				<!--<script>
