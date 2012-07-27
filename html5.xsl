@@ -5,7 +5,7 @@
 	<xsl:import href="../admin/xsl-library/master-import.xsl" />
 	
 	<!-- Set the character set -->
-	<xsl:output method="html" encoding="utf-8" indent="yes" />
+	<xsl:output method="html" encoding="utf-8" indent="yes" media-type="text/html; charset=utf-8" />
 	
 	<!-- Params that are passed to XSL from SAM -->
 	<xsl:param name="browsemode" select="'edit'" />
