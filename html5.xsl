@@ -56,7 +56,7 @@
 				<!-- We use the page title from SAM. That can be prepended to or altered here -->
 				<title><xsl:value-of select="/SAM/page/title" disable-output-escaping="yes" /></title>
 				
-				<!-- Dont forget to fix yo canonical :) -->
+				<!-- Canonical tag -->
 				<link rel="canonical"><xsl:attribute name="href"><xsl:value-of select="/SAM/sites/site[@root-pageid = $myHomePageID]/publish-url" />/<xsl:value-of select="/SAM/navigation/link[@id = /SAM/page/@id]/href" /></xsl:attribute></link>
 				
 				<!-- Common meta tags -->
