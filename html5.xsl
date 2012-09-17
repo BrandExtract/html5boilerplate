@@ -57,15 +57,29 @@
 				<title><xsl:value-of select="/SAM/page/title" disable-output-escaping="yes" /></title>
 				
 				<!-- Canonical tag -->
-				<link rel="canonical"><xsl:attribute name="href"><xsl:value-of select="/SAM/sites/site[@root-pageid = $myHomePageID]/publish-url" />/<xsl:value-of select="/SAM/navigation/link[@id = /SAM/page/@id]/href" /></xsl:attribute></link>
+				<link rel="canonical">
+					<xsl:attribute name="href">
+						<xsl:value-of select="/SAM/sites/site[@root-pageid = $myHomePageID]/publish-url" />
+						<xsl:text>/</xsl:text>
+						<xsl:value-of select="/SAM/navigation/link[@id = /SAM/page/@id]/href" />
+					</xsl:attribute>
+				</link>
 				
 				<!-- Common meta tags -->
+				<xsl:choose>
+					<xsl:when test="(/SAM/page/@noindex = 1 and /SAM/page/@nofollow = 1) or @directive != 'publish'">
+						<meta name="robots" content="nofollow, noindex, noarchive" />
+					</xsl:when>
+					<xsl:when test="/SAM/page/@noindex = 0 and /SAM/page/@nofollow = 1">
+						<meta name="robots" content="nofollow" />
+					</xsl:when>
+					<xsl:when test="/SAM/page/@noindex = 1 and /SAM/page/@nofollow = 0">
+						<meta name="robots" content="noindex, noarchive" />
+					</xsl:when>
+				</xsl:choose>
 				<meta name="description" content="" />
 				<meta name="author" content="" />
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-				<xsl:if test="@directive != 'publish'">
-					<meta name="robots" content="noindex, nofollow"/>
-				</xsl:if>
 				
 				<!-- Favicon and touch icon links -->
 				<!--<link rel="shortcut icon" href="/favicon.ico" />-->
