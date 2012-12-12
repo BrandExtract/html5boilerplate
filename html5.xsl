@@ -59,9 +59,16 @@
 				<!-- Canonical tag -->
 				<link rel="canonical">
 					<xsl:attribute name="href">
-						<xsl:value-of select="/SAM/sites/site[@root-pageid = $myHomePageID]/publish-url" />
-						<xsl:text>/</xsl:text>
-						<xsl:value-of select="/SAM/navigation/link[@id = /SAM/page/@id]/href" />
+						<xsl:choose>
+							<xsl:when test="/SAM/navigation/link[@id = /SAM/page/@id]/href-override">
+								<xsl:value-of select="/SAM/navigation/link[@id = /SAM/page/@id]/href-override" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="/SAM/sites/site[@root-pageid = $myHomePageID]/publish-url" />
+								<xsl:text>/</xsl:text>
+								<xsl:value-of select="/SAM/navigation/link[@id = /SAM/page/@id]/href" />
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:attribute>
 				</link>
 				
