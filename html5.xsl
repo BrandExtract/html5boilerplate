@@ -84,7 +84,7 @@
 						<meta name="robots" content="noindex, noarchive" />
 					</xsl:when>
 				</xsl:choose>
-				<meta name="description" content="" />
+				
 				<meta name="author" content="" />
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 				
@@ -148,26 +148,26 @@
 			<body>
 				<!-- Add class names for primary, secondary and active pages. Also adds class for home page and inidcator for if the page has a sidebar -->
 				<xsl:attribute name="class">primary<xsl:value-of select="$myPrimaryPageID" /> secondary<xsl:value-of select="$mySecondaryPageID" /> pid<xsl:value-of select="/SAM/page/@id" /> sam<xsl:value-of select="@directive"/>
-    				<xsl:if test="/SAM/page/@id = $myHomePageID"> home</xsl:if>
-    				<xsl:if test="$hasSidebar = 'true'"> hasSidebar</xsl:if>
-    			</xsl:attribute>
+    					<xsl:if test="/SAM/page/@id = $myHomePageID"> home</xsl:if>
+    					<xsl:if test="$hasSidebar = 'true'"> hasSidebar</xsl:if>
+    				</xsl:attribute>
     			
-    			<!-- SAM Administration tools -->
-    			<xsl:call-template name="SAM-admin" />
-    			
-    			<!-- The body of the page -->
-    			<div class="pageContainer">
+    				<!-- SAM Administration tools -->
+    				<xsl:call-template name="SAM-admin" />
+    				
+    				<!-- The body of the page -->
+    				<div class="pageContainer">
 					<xsl:call-template name="header" />
 					<xsl:call-template name="primaryNav" />
-    				<div class="content pageWidth">
+    					<div class="content pageWidth">
 						<xsl:call-template name="leftNav" />
 						<xsl:call-template name="inline" />
 						<xsl:call-template name="sidebar" />
 						<div class="clear"></div>
 					</div>
 					<xsl:call-template name="breadcrumbs"></xsl:call-template>
-    				<xsl:call-template name="footerNav"></xsl:call-template>
-    			</div>
+    					<xsl:call-template name="footerNav"></xsl:call-template>
+    				</div>
 				
 				<!-- Call to jQuery with backup call to local copy if Google API fails. Also includes noConflict which is mandatory in SAM for the time being (conflicts with Prototype) -->
 				<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
