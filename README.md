@@ -1,4 +1,4 @@
 html5boilerplate
 ================
 
-SAM template based on Paul Irish's HTML5 Boilerplate versino 1.0
+SAM template based on Paul Irish's HTML5 Boilerplate version 1.0
