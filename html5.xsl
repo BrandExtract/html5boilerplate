@@ -19,11 +19,27 @@
 	<xsl:param name="action" />
 	<xsl:param name="cwidth" />
 
+	<!-- -->
+	<xsl:variable name="gaTrackingID">xx-xxxxxx-x</xsl:variable>
+	
 	<!-- Some handy variables for later -->
 	<xsl:variable name="myHomePageID"><xsl:value-of select="/SAM/page/navigation/breadcrumb[position() = 2]/@link-id" /></xsl:variable>
+	
 	<xsl:variable name="myPrimaryPageID"><xsl:value-of select="/SAM/page/navigation/breadcrumb[position() = 3]/@link-id" /></xsl:variable>
+	
 	<xsl:variable name="mySecondaryPageID"><xsl:value-of select="/SAM/page/navigation/breadcrumb[position() = 4]/@link-id" /></xsl:variable>
+	
 	<xsl:variable name="hasSidebar"><xsl:if test="count(/SAM/page/chunk/meta[@name='Content-Group' and value='Sidebar']) &gt; 0">true</xsl:if></xsl:variable>
+	
+	<xsl:variable name="depth"><xsl:value-of select="/SAM/page/navigation/breadcrumb[position() = last()]/@depth" /></xsl:variable>
+	
+	<xsl:variable name="bodyClass">pid<xsl:value-of select="/SAM/page/@id" /> sam<xsl:value-of select="/SAM/@directive"/>
+		<xsl:if test="/SAM/page/@id != $myHomePageID"> depth<xsl:value-of select="$depth" /></xsl:if>
+		<xsl:if test="$myPrimaryPageID != ''"> primary<xsl:value-of select="$myPrimaryPageID" /> </xsl:if>
+    	<xsl:if test="$mySecondaryPageID != ''"> secondary<xsl:value-of select="$mySecondaryPageID" /> </xsl:if>
+    	<xsl:if test="/SAM/page/@id = $myHomePageID"> home</xsl:if>
+    	<xsl:if test="$hasSidebar = 'true'"> hasSidebar</xsl:if>
+    </xsl:variable>
 
 	<!-- The entry point for the template -->
 	<xsl:template match="/SAM">
@@ -52,6 +68,11 @@
 				<!-- Charset and browser compatability tags -->
 				<meta charset="UTF-8" />
 				<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+				
+				<!-- Track events that are triggered before Analytics load -->
+				<xsl:if test="@directive = 'publish'"><script>
+					var _gaq=[['_setAccount','<xsl:value-of select="$gaTrackingID" />'],['_trackPageview']];
+				</script></xsl:if>
 				
 				<!-- We use the page title from SAM. That can be prepended to or altered here -->
 				<title><xsl:value-of select="/SAM/page/title" disable-output-escaping="yes" /></title>
@@ -138,36 +159,26 @@
 				<!-- Call to Modernizr (more: http://www.modernizr.com/) -->
 				<script src="/js/modernizr-1.7.min.js"></script>
 
-				<!-- Track events that are triggered before Analytics load -->
-				<xsl:if test="@directive = 'publish'"><script>
-					var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']]; // Change UA-XXXXX-X to be your site's ID
-				</script></xsl:if>
-			
 			</head>
 			
-			<body>
-				<!-- Add class names for primary, secondary and active pages. Also adds class for home page and inidcator for if the page has a sidebar -->
-				<xsl:attribute name="class">primary<xsl:value-of select="$myPrimaryPageID" /> secondary<xsl:value-of select="$mySecondaryPageID" /> pid<xsl:value-of select="/SAM/page/@id" /> sam<xsl:value-of select="@directive"/>
-    					<xsl:if test="/SAM/page/@id = $myHomePageID"> home</xsl:if>
-    					<xsl:if test="$hasSidebar = 'true'"> hasSidebar</xsl:if>
-    				</xsl:attribute>
-    			
-    				<!-- SAM Administration tools -->
-    				<xsl:call-template name="SAM-admin" />
-    				
-    				<!-- The body of the page -->
-    				<div class="pageContainer">
-					<xsl:call-template name="header" />
-					<xsl:call-template name="primaryNav" />
-    					<div class="content pageWidth">
-						<xsl:call-template name="leftNav" />
-						<xsl:call-template name="inline" />
-						<xsl:call-template name="sidebar" />
-						<div class="clear"></div>
-					</div>
-					<xsl:call-template name="breadcrumbs"></xsl:call-template>
-    					<xsl:call-template name="footerNav"></xsl:call-template>
-    				</div>
+			<body class="{$bodyClass}">
+				
+				<!-- SAM Administration tools -->
+				<xsl:call-template name="SAM-admin" />
+				
+				<!-- The body of the page -->
+				<div class="pageContainer">
+				<xsl:call-template name="header" />
+				<xsl:call-template name="primaryNav" />
+					<div class="content pageWidth">
+					<xsl:call-template name="leftNav" />
+					<xsl:call-template name="inline" />
+					<xsl:call-template name="sidebar" />
+					<div class="clear"></div>
+				</div>
+				<xsl:call-template name="breadcrumbs"></xsl:call-template>
+					<xsl:call-template name="footerNav"></xsl:call-template>
+    			</div>
 				
 				<!-- Call to jQuery with backup call to local copy if Google API fails. Also includes noConflict which is mandatory in SAM for the time being (conflicts with Prototype) -->
 				<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -183,11 +194,14 @@
 				]]></xsl:text>
 				
 				<!-- Google Analytics code -->
-				<xsl:if test="@directive = 'publish'"><script>
-					(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;
-					g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-					s.parentNode.insertBefore(g,s)}(document,'script'));
-				</script></xsl:if>
+				<xsl:call-template name="googleAnalytics">
+				    <xsl:with-param name="trackingID" select="$gaTrackingID" />
+				    <xsl:with-param name="visitorIDSlot" select="1" />
+				    <xsl:with-param name="trackKeywordRanking" select="true()" />
+				    <xsl:with-param name="trackFileDownloads" select="true()" />
+				    <xsl:with-param name="trackExternalLinks" select="true()" />
+				    <xsl:with-param name="trackMailtos" select="true()" />
+				</xsl:call-template>
 				
 			</body>		
 		
@@ -230,6 +244,7 @@
 		<section>
 			<xsl:call-template name="bucket-handler">
 				<xsl:with-param name="bucket-label">Inline</xsl:with-param>
+				<xsl:with-param name="class" select="$bodyClass" />
 			</xsl:call-template>
 		</section>
 	</xsl:template>
@@ -239,6 +254,7 @@
 		<aside>
 			<xsl:call-template name="bucket-handler">
 				<xsl:with-param name="bucket-label">Sidebar</xsl:with-param>
+				<xsl:with-param name="class" select="$bodyClass + ' sidebar'" />
 			</xsl:call-template>
 		</aside>
 	</xsl:template>
