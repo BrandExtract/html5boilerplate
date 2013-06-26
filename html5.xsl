@@ -251,7 +251,7 @@
 
 	<!-- Sidebar content area -->
 	<xsl:template name="sidebar">
-		<aside>
+		<aside class="sidebar">
 			<xsl:call-template name="bucket-handler">
 				<xsl:with-param name="bucket-label">Sidebar</xsl:with-param>
 				<xsl:with-param name="class" select="$bodyClass + ' sidebar'" />
