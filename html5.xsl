@@ -19,18 +19,14 @@
 	<xsl:param name="action" />
 	<xsl:param name="cwidth" />
 
-	<!-- -->
+	<!-- google analytics ID -->
 	<xsl:variable name="gaTrackingID">xx-xxxxxx-x</xsl:variable>
 	
 	<!-- Some handy variables for later -->
 	<xsl:variable name="myHomePageID"><xsl:value-of select="/SAM/page/navigation/breadcrumb[position() = 2]/@link-id" /></xsl:variable>
-	
 	<xsl:variable name="myPrimaryPageID"><xsl:value-of select="/SAM/page/navigation/breadcrumb[position() = 3]/@link-id" /></xsl:variable>
-	
 	<xsl:variable name="mySecondaryPageID"><xsl:value-of select="/SAM/page/navigation/breadcrumb[position() = 4]/@link-id" /></xsl:variable>
-	
 	<xsl:variable name="hasSidebar"><xsl:if test="count(/SAM/page/chunk/meta[@name='Content-Group' and value='Sidebar']) &gt; 0">true</xsl:if></xsl:variable>
-	
 	<xsl:variable name="depth"><xsl:value-of select="/SAM/page/navigation/breadcrumb[position() = last()]/@depth" /></xsl:variable>
 	
 	<xsl:variable name="bodyClass">pid<xsl:value-of select="/SAM/page/@id" /> sam<xsl:value-of select="/SAM/@directive"/>
@@ -114,8 +110,8 @@
 				<!--<link rel="apple-touch-icon" href="/apple-touch-icon.png" />-->
 				
 				<!-- These meta keywords and description fields concatenate chunk and page metadata that is defined in SAM -->
-				<meta name="Keywords"><xsl:attribute name="content"><xsl:for-each select="/SAM/page/keywords"><xsl:value-of select="." /></xsl:for-each><xsl:for-each select="/SAM/page/chunk/meta[@name = 'Keywords']"><xsl:value-of select="value" /></xsl:for-each></xsl:attribute></meta>
-				<meta name="Description"><xsl:attribute name="content"><xsl:for-each select="/SAM/page/description"><xsl:value-of select="." /></xsl:for-each><xsl:for-each select="/SAM/page/chunk/meta[@name = 'Description']"><xsl:value-of select="value" /></xsl:for-each></xsl:attribute></meta>		
+				<meta name="keywords"><xsl:attribute name="content"><xsl:for-each select="/SAM/page/keywords"><xsl:value-of select="." /></xsl:for-each><xsl:for-each select="/SAM/page/chunk/meta[@name = 'Keywords']"><xsl:value-of select="value" /></xsl:for-each></xsl:attribute></meta>
+				<meta name="description"><xsl:attribute name="content"><xsl:for-each select="/SAM/page/description"><xsl:value-of select="." /></xsl:for-each><xsl:for-each select="/SAM/page/chunk/meta[@name = 'Description']"><xsl:value-of select="value" /></xsl:for-each></xsl:attribute></meta>		
 				
 				<!-- This calls all stylesheets that are linkes in SAM. Stylesheets may be linkes with sites, pages or even content chunks -->
 				<xsl:call-template name="getStyles" />
