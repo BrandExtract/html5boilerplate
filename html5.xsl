@@ -237,10 +237,10 @@
 
 	<!-- Main content area -->
 	<xsl:template name="inline">
-		<section>
+		<section class="inline">
 			<xsl:call-template name="bucket-handler">
 				<xsl:with-param name="bucket-label">Inline</xsl:with-param>
-				<xsl:with-param name="class" select="$bodyClass" />
+				<xsl:with-param name="class" select="concat($blodyClass,' inline')" />
 			</xsl:call-template>
 		</section>
 	</xsl:template>
@@ -250,7 +250,7 @@
 		<aside class="sidebar">
 			<xsl:call-template name="bucket-handler">
 				<xsl:with-param name="bucket-label">Sidebar</xsl:with-param>
-				<xsl:with-param name="class" select="$bodyClass + ' sidebar'" />
+				<xsl:with-param name="class" select="concat($bodyClass,' sidebar')" />
 			</xsl:call-template>
 		</aside>
 	</xsl:template>
