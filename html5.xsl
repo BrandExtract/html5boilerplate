@@ -240,7 +240,7 @@
     <section class="inline">
       <xsl:call-template name="bucket-handler">
         <xsl:with-param name="bucket-label">Inline</xsl:with-param>
-        <xsl:with-param name="class" select="concat($blodyClass,' inline')" />
+        <xsl:with-param name="class" select="concat($bodyClass,' inline')" />
       </xsl:call-template>
     </section>
   </xsl:template>
