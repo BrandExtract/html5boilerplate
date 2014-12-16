@@ -23,6 +23,7 @@
   <xsl:variable name="gaTrackingID">xx-xxxxxx-x</xsl:variable>
   
   <!-- Some handy variables for later -->
+  <xsl:variable name="myPageID"><xsl:value-of select="/SAM/page/@id"/></xsl:variable>
   <xsl:variable name="myHomePageID"><xsl:value-of select="/SAM/page/navigation/breadcrumb[position() = 2]/@link-id" /></xsl:variable>
   <xsl:variable name="myPrimaryPageID"><xsl:value-of select="/SAM/page/navigation/breadcrumb[position() = 3]/@link-id" /></xsl:variable>
   <xsl:variable name="mySecondaryPageID"><xsl:value-of select="/SAM/page/navigation/breadcrumb[position() = 4]/@link-id" /></xsl:variable>
@@ -103,7 +104,7 @@
         </xsl:choose>
         
         <meta name="author" content="" />
-        <meta name="viewport" content="width=1024" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         
         <!-- Favicon and touch icon links -->
         <!--<link rel="shortcut icon" href="/favicon.ico" />-->
@@ -153,7 +154,7 @@
         ]]></xsl:text>
         
         <!-- Call to Modernizr (more: http://www.modernizr.com/) -->
-        <script src="/js/modernizr-1.7.min.js"></script>
+        <script src="/js/lib/modernizr-2.8.3.min.js"></script>
 
       </head>
       
@@ -177,26 +178,21 @@
         </div>
         
         <!-- Call to jQuery with backup call to local copy if Google API fails. Also includes noConflict which is mandatory in SAM for the time being (conflicts with Prototype) -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script><xsl:text disable-output-escaping="yes"><![CDATA[!window.jQuery && document.write(unescape('%3Cscript src="/js/jquery-1.7.1.min.js"%3E%3C/script%3E'))]]></xsl:text></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script><xsl:text disable-output-escaping="yes"><![CDATA[!window.jQuery && document.write(unescape('%3Cscript src="/js/lib/jquery-1.11.1.min.js"%3E%3C/script%3E'))]]></xsl:text></script>
         <script>jQuery.noConflict();</script>
         
         <!-- Call to your javascript -->
         <!--<script src="/js/yourscript.js"></script>-->
         
-        <!-- Call to PNG Fix for IE 6 -->
-        <xsl:text disable-output-escaping='yes'><![CDATA[
-        <!--[if lt IE 7 ]><script src="/js/dd_belatedpng.js"></script><script>DD_belatedPNG.fix('img, .png_bg');</script><![endif]-->
-        ]]></xsl:text>
-        
         <!-- Google Analytics code -->
         <xsl:call-template name="googleAnalytics">
-            <xsl:with-param name="trackingID" select="$gaTrackingID" />
-            <xsl:with-param name="visitorIDSlot" select="1" />
-            <xsl:with-param name="trackKeywordRanking" select="true()" />
-            <xsl:with-param name="trackFileDownloads" select="true()" />
-            <xsl:with-param name="trackExternalLinks" select="true()" />
-            <xsl:with-param name="trackMailtos" select="true()" />
+          <xsl:with-param name="trackingID" select="$gaTrackingID" />
+          <xsl:with-param name="visitorIDSlot" select="1" />
+          <xsl:with-param name="trackKeywordRanking" select="true()" />
+          <xsl:with-param name="trackFileDownloads" select="true()" />
+          <xsl:with-param name="trackExternalLinks" select="true()" />
+          <xsl:with-param name="trackMailtos" select="true()" />
         </xsl:call-template>
         
       </body>    
@@ -287,4 +283,3 @@
   </xsl:template>
 
 </xsl:stylesheet>
-
