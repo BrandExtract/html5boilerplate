@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  
+
   <!-- Imports SAM XSL templates -->
   <xsl:import href="../admin/xsl-library/master-import.xsl" />
-  
+
   <!-- Set the character set -->
   <xsl:output method="html" encoding="utf-8" indent="yes" media-type="text/html; charset=utf-8" />
-  
+
   <!-- Params that are passed to XSL from SAM -->
   <xsl:param name="browsemode" select="'edit'" />
   <xsl:param name="userlogin" select="1" />
@@ -21,7 +21,7 @@
 
   <!-- google analytics ID -->
   <xsl:variable name="gaTrackingID">xx-xxxxxx-x</xsl:variable>
-  
+
   <!-- Some handy variables for later -->
   <xsl:variable name="myPageID"><xsl:value-of select="/SAM/page/@id"/></xsl:variable>
   <xsl:variable name="myHomePageID"><xsl:value-of select="/SAM/page/navigation/breadcrumb[position() = 2]/@link-id" /></xsl:variable>
@@ -29,7 +29,7 @@
   <xsl:variable name="mySecondaryPageID"><xsl:value-of select="/SAM/page/navigation/breadcrumb[position() = 4]/@link-id" /></xsl:variable>
   <xsl:variable name="hasSidebar"><xsl:if test="count(/SAM/page/chunk/meta[@name='Content-Group' and value='Sidebar']) &gt; 0">true</xsl:if></xsl:variable>
   <xsl:variable name="depth"><xsl:value-of select="/SAM/page/navigation/breadcrumb[position() = last()]/@depth" /></xsl:variable>
-  
+
   <xsl:variable name="bodyClass">pid<xsl:value-of select="/SAM/page/@id" /> sam<xsl:value-of select="/SAM/@directive"/>
     <xsl:if test="/SAM/page/@id != $myHomePageID"> depth<xsl:value-of select="$depth" /></xsl:if>
     <xsl:if test="$myPrimaryPageID != ''"> primary<xsl:value-of select="$myPrimaryPageID" /> </xsl:if>
@@ -40,10 +40,10 @@
 
   <!-- The entry point for the template -->
   <xsl:template match="/SAM">
-  
+
     <!-- Set the DOCTYPE targeting HTML5 -->
     <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html></xsl:text>
-    
+
     <!-- HTML tag with conditional classes for "those" browsers -->
     <xsl:text disable-output-escaping='yes'><![CDATA[
       <!--[if lt IE 7 ]><html lang="en" class="ie6"> <![endif]-->
@@ -52,28 +52,28 @@
       <!--[if IE 9 ]><html lang="en" class="ie9"> <![endif]-->
       <!--[if (gt IE 9)|!(IE)]><!--><html lang="en"><!--<![endif]-->
     ]]></xsl:text>
-    
+
       <head>
-        
+
         <!-- SAM code and cache controls -->
         <xsl:if test="@directive = 'admin'">
           <meta http-equiv="Cache-Control" content="no-cache" />
           <meta http-equiv="expires" content="-1" />
           <xsl:call-template name="admin-script" />
         </xsl:if>
-        
+
         <!-- Charset and browser compatability tags -->
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        
+
         <!-- Track events that are triggered before Analytics load -->
         <xsl:if test="@directive = 'publish'"><script>
           var _gaq=[['_setAccount','<xsl:value-of select="$gaTrackingID" />'],['_trackPageview']];
         </script></xsl:if>
-        
+
         <!-- We use the page title from SAM. That can be prepended to or altered here -->
         <title><xsl:value-of select="/SAM/page/title" disable-output-escaping="yes" /></title>
-        
+
         <!-- Canonical tag -->
         <link rel="canonical">
           <xsl:attribute name="href">
@@ -89,7 +89,7 @@
             </xsl:choose>
           </xsl:attribute>
         </link>
-        
+
         <!-- Common meta tags -->
         <xsl:choose>
           <xsl:when test="(/SAM/page/@noindex = 1 and /SAM/page/@nofollow = 1) or @directive != 'publish'">
@@ -102,26 +102,26 @@
             <meta name="robots" content="noindex, noarchive" />
           </xsl:when>
         </xsl:choose>
-        
+
         <meta name="author" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        
+
         <!-- Favicon and touch icon links -->
         <!--<link rel="shortcut icon" href="/favicon.ico" />-->
         <!--<link rel="apple-touch-icon" href="/apple-touch-icon.png" />-->
-        
+
         <!-- These meta keywords and description fields concatenate chunk and page metadata that is defined in SAM -->
         <meta name="keywords"><xsl:attribute name="content"><xsl:for-each select="/SAM/page/keywords"><xsl:value-of select="." /></xsl:for-each><xsl:for-each select="/SAM/page/chunk/meta[@name = 'Keywords']"><xsl:value-of select="value" /></xsl:for-each></xsl:attribute></meta>
-        <meta name="description"><xsl:attribute name="content"><xsl:for-each select="/SAM/page/description"><xsl:value-of select="." /></xsl:for-each><xsl:for-each select="/SAM/page/chunk/meta[@name = 'Description']"><xsl:value-of select="value" /></xsl:for-each></xsl:attribute></meta>    
-        
+        <meta name="description"><xsl:attribute name="content"><xsl:for-each select="/SAM/page/description"><xsl:value-of select="." /></xsl:for-each><xsl:for-each select="/SAM/page/chunk/meta[@name = 'Description']"><xsl:value-of select="value" /></xsl:for-each></xsl:attribute></meta>
+
         <!-- This calls all stylesheets that are linkes in SAM. Stylesheets may be linkes with sites, pages or even content chunks -->
         <xsl:call-template name="getStyles" />
-        
+
         <!-- Boilerplate styles -->
         <style type="text/css">
           /* This style definition is necessary for IE to render these elements properly */
           article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}
-          
+
           /* All these styles should be replaced */
           body {margin:0;padding:0;font-family:verdana,arial,sans-serif;font-size:12px;}
           p {margin-top:0;}
@@ -147,22 +147,22 @@
           .clear {clear:both;}
           .content {background-color:#fff;}
         </style>
-        
+
         <!-- call to Remy Sharp's HTML5 Shim for IE -->
         <xsl:text disable-output-escaping='yes'><![CDATA[
         <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
         ]]></xsl:text>
-        
+
         <!-- Call to Modernizr (more: http://www.modernizr.com/) -->
         <script src="/js/lib/modernizr-2.8.3.min.js"></script>
 
       </head>
-      
+
       <body class="{$bodyClass}">
-        
+
         <!-- SAM Administration tools -->
         <xsl:call-template name="SAM-admin" />
-        
+
         <!-- The body of the page -->
         <div class="pageContainer">
           <xsl:call-template name="header" />
@@ -176,15 +176,15 @@
           <xsl:call-template name="breadcrumbs"></xsl:call-template>
           <xsl:call-template name="footerNav"></xsl:call-template>
         </div>
-        
+
         <!-- Call to jQuery with backup call to local copy if Google API fails. Also includes noConflict which is mandatory in SAM for the time being (conflicts with Prototype) -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script><xsl:text disable-output-escaping="yes"><![CDATA[!window.jQuery && document.write(unescape('%3Cscript src="/js/lib/jquery-1.11.1.min.js"%3E%3C/script%3E'))]]></xsl:text></script>
         <script>jQuery.noConflict();</script>
-        
+
         <!-- Call to your javascript -->
         <!--<script src="/js/yourscript.js"></script>-->
-        
+
         <!-- Google Analytics code -->
         <xsl:call-template name="googleAnalytics">
           <xsl:with-param name="trackingID" select="$gaTrackingID" />
@@ -193,15 +193,16 @@
           <xsl:with-param name="trackFileDownloads" select="true()" />
           <xsl:with-param name="trackExternalLinks" select="true()" />
           <xsl:with-param name="trackMailtos" select="true()" />
+          <xsl:with-param name="displayAdvertiserSupport" select="true()" />
         </xsl:call-template>
-        
-      </body>    
-    
+
+      </body>
+
     <!-- Closing html tag -->
     <xsl:text disable-output-escaping="yes"><![CDATA[</html>]]></xsl:text>
-    
+
   </xsl:template>
-  
+
   <!-- Page header. Here we wrap the header around a <div class="pageWidth"> to give us an element that extends into margins but contains the contents within the page width -->
   <xsl:template name="header">
     <header>
